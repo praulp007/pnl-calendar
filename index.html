@@ -16,264 +16,278 @@
       --green: #00e676; --green-dim: #0d1a12; --green-border: #1a4a2a;
       --red: #ff4444; --red-dim: #1a0d0d;
     }
-    html, body {
-      background: var(--bg); color: var(--text);
-      font-family: 'Courier New', Courier, monospace;
-      min-height: 100dvh; overscroll-behavior: none;
-    }
+    html, body { background: var(--bg); color: var(--text); font-family: 'Courier New', Courier, monospace; min-height: 100dvh; overscroll-behavior: none; }
 
-    /* LOGIN */
-    #loginScreen {
-      position: fixed; inset: 0; background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 999; flex-direction: column;
-    }
-    .login-box {
-      background: var(--surface); border: 0.5px solid var(--border2);
-      border-radius: 16px; padding: 32px 28px;
-      width: 90%; max-width: 320px;
-      display: flex; flex-direction: column; gap: 14px;
-    }
+    .loading-overlay { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 500; flex-direction: column; gap: 12px; }
+    .loading-spinner { width: 24px; height: 24px; border: 2px solid var(--border2); border-top-color: var(--green); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
+
+    #loginScreen { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 999; }
+    .login-box { background: var(--surface); border: 0.5px solid var(--border2); border-radius: 16px; padding: 32px 28px; width: 90%; max-width: 320px; display: flex; flex-direction: column; gap: 14px; }
     .login-logo { font-size: 11px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; font-weight: 700; }
-    .login-title { font-size: 20px; font-weight: 700; color: var(--text); }
-    .login-input {
-      background: var(--bg); border: 0.5px solid var(--border2); color: var(--text);
-      border-radius: 8px; padding: 12px 14px; font-size: 15px;
-      font-family: 'Courier New', monospace; outline: none; width: 100%; letter-spacing: 3px;
-    }
+    .login-title { font-size: 20px; font-weight: 700; }
+    .login-input { background: var(--bg); border: 0.5px solid var(--border2); color: var(--text); border-radius: 8px; padding: 12px 14px; font-size: 15px; font-family: 'Courier New', monospace; outline: none; width: 100%; letter-spacing: 3px; }
     .login-input:focus { border-color: #444; }
     .login-input::placeholder { letter-spacing: 0; color: #333; }
-    .btn-login {
-      background: var(--green-dim); border: 0.5px solid var(--green-border); color: var(--green);
-      border-radius: 8px; padding: 12px; font-size: 13px;
-      font-family: 'Courier New', monospace; font-weight: 700; cursor: pointer; letter-spacing: 1px;
-    }
-    .btn-login:hover { background: #112017; }
+    .btn-login { background: var(--green-dim); border: 0.5px solid var(--green-border); color: var(--green); border-radius: 8px; padding: 12px; font-size: 13px; font-family: 'Courier New', monospace; font-weight: 700; cursor: pointer; }
     .login-error { font-size: 11px; color: var(--red); text-align: center; min-height: 14px; }
     .login-hint { font-size: 10px; color: var(--muted); text-align: center; }
 
-    /* APP */
-    #app { max-width: 560px; margin: 0 auto; padding: 20px 14px 40px; }
+    #app { max-width: 600px; margin: 0 auto; padding: 18px 14px 40px; }
     .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
     .logo { font-size: 11px; letter-spacing: 3px; color: var(--muted2); text-transform: uppercase; font-weight: 700; }
-    .sync-pill {
-      display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--muted);
-      background: var(--surface); border: 0.5px solid var(--border2); padding: 4px 10px; border-radius: 20px;
-    }
+    .sync-pill { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--muted); background: var(--surface); border: 0.5px solid var(--border2); padding: 4px 10px; border-radius: 20px; }
     .sync-dot { width: 6px; height: 6px; border-radius: 50%; animation: pulse 2.5s infinite; }
-    .dot-green { background: var(--green); }
-    .dot-amber { background: #f59e0b; }
-    .dot-red { background: var(--red); }
+    .dot-green { background: var(--green); } .dot-amber { background: #f59e0b; } .dot-red { background: var(--red); }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.25} }
 
-    .month-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-    .nav-btn {
-      background: var(--surface); border: 0.5px solid var(--border2); color: var(--muted2);
-      width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 18px;
-      display: flex; align-items: center; justify-content: center;
-    }
+    .month-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .nav-btn { background: var(--surface); border: 0.5px solid var(--border2); color: var(--muted2); width: 34px; height: 34px; border-radius: 8px; cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center; }
     .nav-btn:hover { background: var(--surface2); color: var(--text); }
-    .month-label { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: 1px; }
+    .month-label { font-size: 17px; font-weight: 700; letter-spacing: 1px; }
 
-    .total-block { margin-bottom: 6px; }
-    .total-amount { font-size: 36px; font-weight: 700; line-height: 1; margin-bottom: 2px; }
+    .total-block { margin-bottom: 2px; }
+    .total-amount { font-size: 48px; font-weight: 700; line-height: 1; letter-spacing: -1px; cursor: pointer; display: inline-flex; align-items: baseline; gap: 8px; transition: opacity 0.15s; user-select: none; }
+    .total-amount:hover { opacity: 0.8; }
+    .currency-badge { font-size: 13px; font-weight: 600; color: var(--muted2); background: var(--surface); border: 0.5px solid var(--border2); border-radius: 6px; padding: 3px 8px; letter-spacing: 1px; cursor: pointer; }
+    .exchange-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; min-height: 18px; }
+    .exchange-info { font-size: 10px; color: var(--muted); }
+    .rate-updated { font-size: 9px; color: #333; }
     .pos { color: var(--green); } .neg { color: var(--red); } .zero { color: var(--muted); }
 
-    .progress-track { height: 2px; background: var(--border); border-radius: 2px; margin-bottom: 12px; overflow: hidden; }
+    .progress-track { height: 2px; background: var(--border); border-radius: 2px; margin-bottom: 14px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--green); border-radius: 2px; transition: width 0.4s ease; }
     .progress-fill.neg-fill { background: var(--red); }
 
-    .stats-row {
-      display: flex; margin-bottom: 16px;
-      background: var(--surface); border: 0.5px solid var(--border2); border-radius: 10px; overflow: hidden;
-    }
-    .stat-box { flex: 1; padding: 10px; text-align: center; border-right: 0.5px solid var(--border2); }
+    .stats-row { display: flex; margin-bottom: 16px; background: var(--surface); border: 0.5px solid var(--border2); border-radius: 10px; overflow: hidden; }
+    .stat-box { flex: 1; padding: 12px 8px; text-align: center; border-right: 0.5px solid var(--border2); }
     .stat-box:last-child { border-right: none; }
-    .stat-val { font-size: 16px; font-weight: 700; }
-    .stat-lbl { font-size: 9px; color: var(--muted); letter-spacing: 0.5px; margin-top: 1px; text-transform: uppercase; }
+    .stat-val { font-size: 20px; font-weight: 700; }
+    .stat-lbl { font-size: 9px; color: var(--muted); letter-spacing: 0.5px; margin-top: 2px; text-transform: uppercase; }
 
+    /* CHART - todos os dias */
+    .chart-wrap { background: var(--surface); border: 0.5px solid var(--border2); border-radius: 10px; padding: 14px 10px 10px; margin-bottom: 16px; }
+    .chart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .chart-title { font-size: 9px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; }
+    .chart-total-lbl { font-size: 11px; font-weight: 700; }
+    .chart-outer { width: 100%; overflow-x: auto; }
+    .chart-inner { display: flex; align-items: flex-end; gap: 2px; height: 80px; min-width: 100%; }
+    .chart-col { flex: 1; min-width: 7px; max-width: 18px; display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; cursor: pointer; position: relative; }
+    .chart-col:hover .chart-bar { filter: brightness(1.4); opacity: 1 !important; }
+    .chart-col:hover .chart-day-lbl { color: var(--muted2); }
+    .chart-bar { width: 100%; border-radius: 2px 2px 0 0; transition: all 0.25s ease; }
+    .chart-bar.pos { background: var(--green); }
+    .chart-bar.neg { background: var(--red); border-radius: 0 0 2px 2px; }
+    .chart-bar.empty-bar { background: var(--border); border-radius: 2px; height: 2px !important; }
+    .chart-bar.is-today { outline: 1px solid #fff3; }
+    .chart-day-lbl { font-size: 7px; color: #333; margin-top: 4px; text-align: center; line-height: 1; transition: color 0.15s; }
+    .chart-day-lbl.today-lbl { color: var(--muted2); }
+    .chart-zero-line { width: 100%; height: 0.5px; background: var(--border2); flex-shrink: 0; margin: 1px 0; }
+
+    /* CALENDAR */
     .days-header { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 3px; }
     .day-hdr { text-align: center; font-size: 9px; color: var(--muted); letter-spacing: 1px; padding: 4px 0; font-weight: 700; }
     .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-    .cell {
-      background: var(--surface); border: 0.5px solid var(--border); border-radius: 7px;
-      min-height: 58px; padding: 5px 5px 4px; cursor: pointer;
-      display: flex; flex-direction: column;
-      transition: border-color 0.15s, background 0.15s;
-      -webkit-tap-highlight-color: transparent;
-    }
+    .cell { background: var(--surface); border: 0.5px solid var(--border); border-radius: 7px; min-height: 64px; padding: 6px 5px 4px; cursor: pointer; display: flex; flex-direction: column; transition: border-color 0.15s, background 0.15s; -webkit-tap-highlight-color: transparent; }
     .cell:hover { border-color: var(--border2); background: var(--surface2); }
     .cell:active { transform: scale(0.97); }
-    .cell.today { border-color: #333; }
+    .cell.today { border-color: #444; }
     .cell.has-pos { background: var(--green-dim); border-color: var(--green-border); }
     .cell.has-neg { background: var(--red-dim); border-color: #4a1a1a; }
     .cell.empty { background: transparent; border-color: transparent; cursor: default; }
-    .cell.empty:hover { background: transparent; border-color: transparent; }
-    .cell-num { font-size: 9px; color: var(--muted); margin-bottom: 3px; }
-    .cell-pnl { font-size: 11px; font-weight: 700; margin-top: auto; }
+    .cell.empty:hover { background: transparent; border-color: transparent; transform: none; }
+    .cell-num { font-size: 9px; color: var(--muted); margin-bottom: 2px; }
+    .cell-count { font-size: 8px; color: var(--muted); }
+    .cell-pnl { font-size: 12px; font-weight: 700; margin-top: auto; }
     .cell-pnl.pos { color: var(--green); }
     .cell-pnl.neg { color: var(--red); }
-    .cell-pnl.zero { color: #2a2a2a; font-size: 10px; font-weight: 400; }
+    .cell-pnl.zero { color: #252525; font-size: 10px; font-weight: 400; }
     .cell-bar { height: 2px; border-radius: 2px; margin-top: 3px; }
 
     .streak-row { display: flex; justify-content: space-between; margin-top: 12px; font-size: 10px; color: var(--muted); border-top: 0.5px solid var(--border); padding-top: 10px; }
 
     /* MODAL */
-    .overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-      display: flex; align-items: flex-end; justify-content: center;
-      z-index: 200; padding-bottom: env(safe-area-inset-bottom, 0);
-    }
+    .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: flex-end; justify-content: center; z-index: 200; padding-bottom: env(safe-area-inset-bottom,0); }
     @media (min-width: 500px) { .overlay { align-items: center; } }
-    .modal {
-      background: #111; border: 0.5px solid var(--border2);
-      border-radius: 16px 16px 0 0; padding: 20px 20px 28px;
-      width: 100%; max-width: 480px;
-    }
-    @media (min-width: 500px) { .modal { border-radius: 16px; max-width: 360px; } }
+    .modal { background: #111; border: 0.5px solid var(--border2); border-radius: 16px 16px 0 0; padding: 20px 20px 28px; width: 100%; max-width: 480px; }
+    @media (min-width: 500px) { .modal { border-radius: 16px; max-width: 380px; } }
     .modal-handle { width: 36px; height: 3px; background: #333; border-radius: 2px; margin: 0 auto 16px; }
     @media (min-width: 500px) { .modal-handle { display: none; } }
     .modal-tag { font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-    .modal-date-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
-    .trade-list { margin-bottom: 4px; max-height: 200px; overflow-y: auto; }
-    .trade-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 0.5px solid var(--border); }
+    .modal-date-title { font-size: 18px; font-weight: 700; margin-bottom: 14px; }
+    .trade-list { margin-bottom: 4px; max-height: 190px; overflow-y: auto; }
+    .trade-row { display: flex; align-items: center; justify-content: space-between; padding: 9px 0; border-bottom: 0.5px solid var(--border); }
     .trade-row:last-child { border-bottom: none; }
-    .trade-name { font-size: 11px; color: var(--muted2); }
+    .trade-info { display: flex; flex-direction: column; gap: 1px; }
+    .trade-label-text { font-size: 13px; font-weight: 600; }
+    .trade-label-empty { font-size: 11px; color: var(--muted); }
     .trade-right { display: flex; align-items: center; gap: 8px; }
-    .trade-val { font-size: 13px; font-weight: 700; }
-    .trade-del { background: none; border: none; color: #333; cursor: pointer; font-size: 13px; padding: 2px 4px; border-radius: 4px; }
+    .trade-val { font-size: 15px; font-weight: 700; }
+    .trade-del { background: none; border: none; color: #333; cursor: pointer; font-size: 14px; padding: 3px 5px; border-radius: 4px; }
     .trade-del:hover { color: var(--red); }
-    .no-trades { font-size: 11px; color: #333; padding: 10px 0; }
+    .no-trades { font-size: 11px; color: #333; padding: 12px 0; }
     .modal-total-row { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 0; border-top: 0.5px solid var(--border2); border-bottom: 0.5px solid var(--border2); margin: 4px 0 14px; }
     .modal-total-lbl { font-size: 11px; color: var(--muted); }
-    .modal-total-val { font-size: 22px; font-weight: 700; }
-    .input-row { display: flex; gap: 8px; margin-bottom: 12px; }
-    .trade-input {
-      flex: 1; background: var(--bg); border: 0.5px solid var(--border2); color: var(--text);
-      border-radius: 8px; padding: 10px 12px; font-size: 15px;
-      font-family: 'Courier New', monospace; outline: none; -webkit-appearance: none;
-    }
+    .modal-total-val { font-size: 26px; font-weight: 700; }
+    .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .trade-input { width: 100%; background: var(--bg); border: 0.5px solid var(--border2); color: var(--text); border-radius: 8px; padding: 11px 12px; font-size: 15px; font-family: 'Courier New', monospace; outline: none; -webkit-appearance: none; }
     .trade-input:focus { border-color: #444; }
-    .trade-input::placeholder { color: #333; }
-    .btn-add {
-      background: var(--green-dim); border: 0.5px solid var(--green-border); color: var(--green);
-      border-radius: 8px; padding: 10px 16px; font-size: 13px;
-      font-family: 'Courier New', monospace; font-weight: 700; cursor: pointer; white-space: nowrap;
-    }
-    .btn-add:hover { background: #112017; }
-    .btn-close {
-      width: 100%; background: var(--surface); border: 0.5px solid var(--border2); color: var(--muted2);
-      border-radius: 8px; padding: 11px; font-size: 13px; font-family: 'Courier New', monospace; cursor: pointer;
-    }
-    .btn-close:hover { background: var(--surface2); }
+    .trade-input::placeholder { color: #333; font-size: 12px; }
+    .btn-add { width: 100%; background: var(--green-dim); border: 0.5px solid var(--green-border); color: var(--green); border-radius: 8px; padding: 12px; font-size: 13px; margin-bottom: 8px; font-family: 'Courier New', monospace; font-weight: 700; cursor: pointer; }
+    .btn-add:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-close { width: 100%; background: var(--surface); border: 0.5px solid var(--border2); color: var(--muted2); border-radius: 8px; padding: 11px; font-size: 13px; font-family: 'Courier New', monospace; cursor: pointer; }
 
-    .loading-overlay {
-      position: fixed; inset: 0; background: var(--bg);
-      display: flex; align-items: center; justify-content: center;
-      z-index: 500; flex-direction: column; gap: 12px;
-    }
-    .loading-spinner {
-      width: 24px; height: 24px; border: 2px solid var(--border2);
-      border-top-color: var(--green); border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .loading-text { font-size: 11px; color: var(--muted); letter-spacing: 2px; }
-
-    @media (max-width: 380px) {
-      .cell { min-height: 48px; }
-      .cell-pnl { font-size: 10px; }
-      .total-amount { font-size: 28px; }
-    }
+    @media (max-width: 380px) { .cell { min-height: 52px; } .cell-pnl { font-size: 10px; } .total-amount { font-size: 36px; } }
   </style>
 </head>
 <body>
 
-<!-- LOADING -->
 <div class="loading-overlay" id="loadingScreen">
   <div class="loading-spinner"></div>
   <div class="loading-text">A sincronizar...</div>
 </div>
 
-<!-- LOGIN -->
 <div id="loginScreen" style="display:none">
   <div class="login-box">
     <div class="login-logo">PNL Calendar</div>
     <div class="login-title">Acesso privado</div>
-    <input class="login-input" type="password" id="pwdInput" placeholder="password" autocomplete="current-password" />
+    <input class="login-input" type="password" id="pwdInput" placeholder="password" />
     <button class="btn-login" onclick="tryLogin()">Entrar</button>
     <div class="login-error" id="loginError"></div>
     <div class="login-hint">Acesso restrito ao proprietário</div>
   </div>
 </div>
 
-<!-- APP -->
 <div id="app" style="display:none">
   <div class="header">
     <span class="logo">PNL Calendar</span>
-    <div class="sync-pill">
-      <span class="sync-dot dot-amber" id="syncDot"></span>
-      <span id="syncLabel">sync</span>
-    </div>
+    <div class="sync-pill"><span class="sync-dot dot-amber" id="syncDot"></span><span id="syncLabel">sync</span></div>
   </div>
+
   <div class="month-nav">
     <button class="nav-btn" onclick="changeMonth(-1)">&#8249;</button>
     <span class="month-label" id="monthLabel"></span>
     <button class="nav-btn" onclick="changeMonth(1)">&#8250;</button>
   </div>
+
   <div class="total-block">
-    <div class="total-amount" id="totalAmount">$0.00</div>
+    <div class="total-amount" id="totalAmount" onclick="toggleCurrency()">
+      <span id="totalValue">$0.00</span>
+      <span class="currency-badge" id="currencyBadge">USD</span>
+    </div>
+  </div>
+  <div class="exchange-row">
+    <span class="exchange-info" id="exchangeInfo"></span>
+    <span class="rate-updated" id="rateUpdated"></span>
   </div>
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+
   <div class="stats-row" id="statsRow"></div>
+
+  <div class="chart-wrap">
+    <div class="chart-header">
+      <div class="chart-title" id="chartTitle">Ganhos por dia</div>
+      <div class="chart-total-lbl" id="chartTotalLbl"></div>
+    </div>
+    <div class="chart-outer">
+      <div class="chart-inner" id="chartInner"></div>
+    </div>
+  </div>
+
   <div class="days-header" id="daysHeader"></div>
   <div class="calendar-grid" id="calGrid"></div>
   <div class="streak-row" id="streakRow"></div>
 </div>
 
-<!-- MODAL -->
 <div class="overlay" id="overlay" style="display:none" onclick="overlayClick(event)">
   <div class="modal">
     <div class="modal-handle"></div>
-    <div class="modal-tag">Registar trades</div>
+    <div class="modal-tag">Registar trade</div>
     <div class="modal-date-title" id="modalTitle"></div>
     <div class="trade-list" id="tradeList"></div>
     <div class="modal-total-row">
       <span class="modal-total-lbl">Total do dia</span>
       <span class="modal-total-val" id="modalTotal">$0.00</span>
     </div>
-    <div class="input-row">
-      <input class="trade-input" type="number" id="tradeInput" placeholder="ex: 45.50 ou -12" step="0.01" inputmode="decimal" />
-      <button class="btn-add" onclick="addTrade()">+ Add</button>
+    <div class="input-grid">
+      <input class="trade-input" type="text" id="labelInput" placeholder="Nome (opcional)" />
+      <input class="trade-input" type="number" id="tradeInput" placeholder="Valor (ex: 45.50)" step="0.01" inputmode="decimal" />
     </div>
+    <button class="btn-add" id="btnAdd" onclick="addTrade()">+ Adicionar trade</button>
     <button class="btn-close" onclick="closeModal()">Fechar</button>
   </div>
 </div>
 
 <script>
-  // ── CONFIG ────────────────────────────────────────────
   const PASSWORD    = '123456789';
   const SUPA_URL    = 'https://nfpnhchjgkvvdbaivgtm.supabase.co';
   const SUPA_KEY    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5mcG5oY2hqZ2t2dmRiYWl2Z3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5MTcwMjAsImV4cCI6MjA5MzQ5MzAyMH0.FiGxJpH4IDGMXw5GXsqbE9dRtOhxa5xi8KUzlAKC4AY';
   const SESSION_KEY = 'pnlcal_auth';
-  // ─────────────────────────────────────────────────────
+  const RATE_KEY    = 'pnlcal_eur_rate';
+  const RATE_TS_KEY = 'pnlcal_eur_ts';
+  const RATE_TTL    = 2 * 24 * 60 * 60 * 1000; // 2 dias em ms
 
   const MONTHS  = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
   const DAYS_PT = ['SEG','TER','QUA','QUI','SEX','SÁB','DOM'];
 
   let db = {}, curY, curM, selD;
+  let currency = localStorage.getItem('pnl_currency') || 'USD';
+  let eurRate = parseFloat(localStorage.getItem(RATE_KEY)) || 0.92;
   const today = new Date();
 
-  // ── SUPABASE HELPERS ──────────────────────────────────
+  // ── TAXA CÂMBIO (cache 2 dias) ────────────────────────
+  async function fetchRate() {
+    const lastFetch = parseInt(localStorage.getItem(RATE_TS_KEY) || '0');
+    const now = Date.now();
+    if (now - lastFetch < RATE_TTL && localStorage.getItem(RATE_KEY)) {
+      eurRate = parseFloat(localStorage.getItem(RATE_KEY));
+      showRateInfo(lastFetch);
+      return;
+    }
+    try {
+      const r = await fetch('https://open.er-api.com/v6/latest/USD');
+      const j = await r.json();
+      if (j.rates && j.rates.EUR) {
+        eurRate = j.rates.EUR;
+        localStorage.setItem(RATE_KEY, eurRate.toString());
+        localStorage.setItem(RATE_TS_KEY, now.toString());
+        showRateInfo(now);
+      }
+    } catch(e) {
+      showRateInfo(lastFetch);
+    }
+  }
+
+  function showRateInfo(ts) {
+    document.getElementById('exchangeInfo').textContent = `1 USD = ${eurRate.toFixed(4)} EUR`;
+    if (ts > 0) {
+      const d = new Date(ts);
+      const str = d.toLocaleDateString('pt-PT', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+      document.getElementById('rateUpdated').textContent = `atualizado: ${str}`;
+    }
+  }
+
+  // Atualiza a taxa a cada 2 dias automaticamente
+  setInterval(fetchRate, RATE_TTL);
+
+  function toggleCurrency() {
+    currency = currency === 'USD' ? 'EUR' : 'USD';
+    localStorage.setItem('pnl_currency', currency);
+    render();
+  }
+
+  function conv(v) { return currency === 'EUR' ? v * eurRate : v; }
+  function sym() { return currency === 'EUR' ? '€' : '$'; }
+  function fmtV(usd) {
+    const v = conv(usd);
+    return (usd >= 0 ? '+' : '-') + sym() + Math.abs(v).toFixed(2);
+  }
+
+  // ── SUPABASE ──────────────────────────────────────────
   async function sbFetch(path, opts = {}) {
     const res = await fetch(SUPA_URL + path, {
-      headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': 'Bearer ' + SUPA_KEY,
-        'Content-Type': 'application/json',
-        'Prefer': 'return=representation',
-        ...opts.headers
-      },
+      headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer '+SUPA_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation', ...opts.headers },
       ...opts
     });
     if (!res.ok) throw new Error(await res.text());
@@ -288,95 +302,124 @@
       db = {};
       for (const row of rows) {
         if (!db[row.day_key]) db[row.day_key] = [];
-        db[row.day_key].push({ id: row.id, amount: row.amount });
+        db[row.day_key].push({ id: row.id, amount: row.amount, label: row.label || '' });
       }
       setSyncStatus('green', 'sincronizado');
-    } catch(e) {
-      setSyncStatus('red', 'erro sync');
-      console.error(e);
-    }
+    } catch(e) { setSyncStatus('red', 'erro sync'); }
   }
 
-  async function addToSupabase(dayKey, amount) {
+  async function addToSupabase(dayKey, amount, label) {
     setSyncStatus('amber', 'a guardar...');
-    try {
-      const rows = await sbFetch('/rest/v1/trades', {
-        method: 'POST',
-        body: JSON.stringify({ day_key: dayKey, amount })
-      });
-      setSyncStatus('green', 'guardado');
-      return rows[0].id;
-    } catch(e) {
-      setSyncStatus('red', 'erro ao guardar');
-      throw e;
-    }
+    const rows = await sbFetch('/rest/v1/trades', { method: 'POST', body: JSON.stringify({ day_key: dayKey, amount, label }) });
+    setSyncStatus('green', 'guardado');
+    return rows[0].id;
   }
 
   async function deleteFromSupabase(id) {
     setSyncStatus('amber', 'a apagar...');
-    try {
-      await sbFetch('/rest/v1/trades?id=eq.' + id, { method: 'DELETE' });
-      setSyncStatus('green', 'sincronizado');
-    } catch(e) {
-      setSyncStatus('red', 'erro ao apagar');
-      throw e;
-    }
+    await sbFetch('/rest/v1/trades?id=eq.'+id, { method: 'DELETE' });
+    setSyncStatus('green', 'sincronizado');
   }
 
   function setSyncStatus(color, label) {
-    const dot = document.getElementById('syncDot');
-    const lbl = document.getElementById('syncLabel');
-    dot.className = 'sync-dot dot-' + color;
-    lbl.textContent = label;
+    document.getElementById('syncDot').className = 'sync-dot dot-'+color;
+    document.getElementById('syncLabel').textContent = label;
   }
-  // ─────────────────────────────────────────────────────
 
   function dk(y,m,d) { return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
-  function dayTotal(k) { return (db[k]||[]).reduce((s,t)=>s+t.amount,0); }
-  function fmt(v) { return (v>0?'+ $':'- $')+Math.abs(v).toFixed(2); }
+  function dayTotal(k) { return (db[k]||[]).reduce((s,t)=>s+t.amount, 0); }
 
-  function render() {
-    const daysInMonth = new Date(curY, curM+1, 0).getDate();
-    const firstDow = new Date(curY, curM, 1).getDay();
-    const offset = firstDow === 0 ? 6 : firstDow - 1;
+  // ── CHART (todos os dias 1→fim do mês) ───────────────
+  function renderChart(daysInMonth) {
+    const todY=today.getFullYear(), todM=today.getMonth(), todD=today.getDate();
+    const isCurMonth = curY===todY && curM===todM;
+    const s = sym();
 
-    document.getElementById('monthLabel').textContent = MONTHS[curM] + ' ' + curY;
-
-    let total=0, wins=0, losses=0, bestStreak=0, curStreak=0, allTrades=0;
-    for (let d=1; d<=daysInMonth; d++) {
+    const vals = [];
+    let maxAbs = 0;
+    for(let d=1; d<=daysInMonth; d++){
       const k=dk(curY,curM,d), trades=db[k]||[];
-      if (trades.length > 0) {
+      const t = trades.length > 0 ? dayTotal(k) : null;
+      vals.push(t);
+      if(t !== null) maxAbs = Math.max(maxAbs, Math.abs(t));
+    }
+    if(maxAbs === 0) maxAbs = 1;
+
+    let html = '';
+    for(let d=1; d<=daysInMonth; d++){
+      const v = vals[d-1];
+      const isToday = isCurMonth && d===todD;
+      const isFuture = isCurMonth && d > todD;
+
+      let barHtml = '';
+      if(v === null){
+        barHtml = `<div class="chart-bar empty-bar" style="opacity:${isFuture?0.1:0.2}"></div>`;
+      } else {
+        const pct = Math.max(6, Math.round((Math.abs(v)/maxAbs)*100));
+        const cls = v >= 0 ? 'pos' : 'neg';
+        const todayCls = isToday ? ' is-today' : '';
+        const displayV = conv(v);
+        const tip = `Dia ${d}: ${v>=0?'+':''}${s}${Math.abs(displayV).toFixed(2)}`;
+        barHtml = `<div class="chart-bar ${cls}${todayCls}" style="height:${pct}%;opacity:${isToday?1:0.72}" title="${tip}"></div>`;
+      }
+
+      const lblCls = isToday ? ' today-lbl' : '';
+      // mostra número do dia em baixo
+      html += `<div class="chart-col" onclick="openModal(${d})" title="Dia ${d}">
+        ${barHtml}
+        <div class="chart-day-lbl${lblCls}">${d}</div>
+      </div>`;
+    }
+
+    document.getElementById('chartInner').innerHTML = html;
+    document.getElementById('chartTitle').textContent = `Ganhos por dia — ${MONTHS[curM].slice(0,3)} ${curY}`;
+  }
+
+  // ── RENDER ────────────────────────────────────────────
+  function render() {
+    const daysInMonth = new Date(curY,curM+1,0).getDate();
+    const firstDow = new Date(curY,curM,1).getDay();
+    const offset = firstDow===0 ? 6 : firstDow-1;
+    const s = sym();
+
+    document.getElementById('monthLabel').textContent = MONTHS[curM]+' '+curY;
+    document.getElementById('currencyBadge').textContent = currency;
+
+    let total=0,wins=0,losses=0,bestStreak=0,curStreak=0,allTrades=0;
+    for(let d=1; d<=daysInMonth; d++){
+      const k=dk(curY,curM,d), trades=db[k]||[];
+      if(trades.length > 0){
         const t=dayTotal(k); total+=t; allTrades+=trades.length;
         if(t>0){wins++;curStreak++;bestStreak=Math.max(bestStreak,curStreak);}
         else{losses++;curStreak=0;}
       }
     }
-    const liveStreak = curStreak;
+    const liveStreak=curStreak;
+    const displayTotal=conv(total);
 
-    const ta = document.getElementById('totalAmount');
-    ta.textContent = fmt(total);
-    ta.className = 'total-amount '+(total>0?'pos':total<0?'neg':'zero');
+    const ta=document.getElementById('totalValue');
+    ta.textContent=(total>=0?'+':'-')+s+Math.abs(displayTotal).toFixed(2);
+    document.getElementById('totalAmount').className='total-amount '+(total>0?'pos':total<0?'neg':'zero');
 
     let maxDay=0;
-    for(let d=1;d<=daysInMonth;d++){
-      const t=Math.abs(dayTotal(dk(curY,curM,d)));
-      if(t>maxDay) maxDay=t;
-    }
-    const pct = maxDay>0 ? Math.min(100,(Math.abs(total)/maxDay)*100) : 0;
-    const pf = document.getElementById('progressFill');
-    pf.style.width = pct+'%';
-    pf.className = 'progress-fill'+(total<0?' neg-fill':'');
+    for(let d=1;d<=daysInMonth;d++){const t=Math.abs(dayTotal(dk(curY,curM,d)));if(t>maxDay)maxDay=t;}
+    const pct=maxDay>0?Math.min(100,(Math.abs(total)/maxDay)*100):0;
+    const pf=document.getElementById('progressFill');
+    pf.style.width=pct+'%';
+    pf.className='progress-fill'+(total<0?' neg-fill':'');
 
-    document.getElementById('statsRow').innerHTML = `
+    document.getElementById('statsRow').innerHTML=`
       <div class="stat-box"><div class="stat-val pos">${wins}</div><div class="stat-lbl">Green</div></div>
       <div class="stat-box"><div class="stat-val neg">${losses}</div><div class="stat-lbl">Red</div></div>
       <div class="stat-box"><div class="stat-val">${allTrades}</div><div class="stat-lbl">Trades</div></div>
-      <div class="stat-box"><div class="stat-val">${wins+losses>0?Math.round(wins/(wins+losses)*100):0}%</div><div class="stat-lbl">Win rate</div></div>
+      <div class="stat-box"><div class="stat-val">${wins+losses>0?Math.round(wins/(wins+losses)*100):0}%</div><div class="stat-lbl">Win%</div></div>
     `;
 
-    document.getElementById('daysHeader').innerHTML = DAYS_PT.map(d=>`<div class="day-hdr">${d}</div>`).join('');
+    renderChart(daysInMonth);
 
-    const todY=today.getFullYear(),todM=today.getMonth(),todD=today.getDate();
+    document.getElementById('daysHeader').innerHTML=DAYS_PT.map(d=>`<div class="day-hdr">${d}</div>`).join('');
+
+    const todY=today.getFullYear(), todM=today.getMonth(), todD=today.getDate();
     let html='';
     for(let i=0;i<offset;i++) html+=`<div class="cell empty"></div>`;
     for(let d=1;d<=daysInMonth;d++){
@@ -388,15 +431,18 @@
       if(hasData&&t>0) cls+=' has-pos';
       if(hasData&&t<0) cls+=' has-neg';
       const pnlCls=hasData?(t>0?'pos':t<0?'neg':'zero'):'zero';
-      const pnlTxt=hasData?(t>0?'+$'+t.toFixed(2):'-$'+Math.abs(t).toFixed(2)):'$0';
+      const displayT=conv(t);
+      const pnlTxt=hasData?(t>=0?'+'+s+displayT.toFixed(2):'-'+s+Math.abs(displayT).toFixed(2)):s+'0';
       const barBg=hasData?(t>0?'#00e676':'#ff4444'):'transparent';
+      const countHtml=trades.length>0?`<div class="cell-count">${trades.length}t</div>`:'';
       html+=`<div class="${cls}" onclick="openModal(${d})">
         <div class="cell-num">${d}${isToday?' ●':''}</div>
+        ${countHtml}
         <div class="cell-pnl ${pnlCls}">${pnlTxt}</div>
         <div class="cell-bar" style="background:${barBg}"></div>
       </div>`;
     }
-    document.getElementById('calGrid').innerHTML = html;
+    document.getElementById('calGrid').innerHTML=html;
 
     document.getElementById('streakRow').innerHTML=`
       <span>Streak atual: <strong style="color:var(--muted2)">${liveStreak}d</strong></span>
@@ -409,61 +455,70 @@
     document.getElementById('modalTitle').textContent=`${d} de ${MONTHS[curM]} de ${curY}`;
     refreshModal(dk(curY,curM,d));
     document.getElementById('tradeInput').value='';
+    document.getElementById('labelInput').value='';
     document.getElementById('overlay').style.display='flex';
     setTimeout(()=>document.getElementById('tradeInput').focus(),150);
   }
 
   function refreshModal(k) {
     const trades=db[k]||[], t=dayTotal(k);
+    const s=sym();
     const mv=document.getElementById('modalTotal');
-    mv.textContent=fmt(t);
+    const displayT=conv(t);
+    mv.textContent=(t>=0?'+ ':'-  ')+s+Math.abs(displayT).toFixed(2);
     mv.className='modal-total-val '+(t>0?'pos':t<0?'neg':'zero');
     if(!trades.length){
       document.getElementById('tradeList').innerHTML='<div class="no-trades">Sem trades registados neste dia.</div>';
       return;
     }
-    document.getElementById('tradeList').innerHTML=trades.map((tr,i)=>`
-      <div class="trade-row">
-        <span class="trade-name">Trade ${i+1}</span>
+    document.getElementById('tradeList').innerHTML=trades.map(tr=>{
+      const displayA=conv(tr.amount);
+      const cls=tr.amount>0?'pos':tr.amount<0?'neg':'zero';
+      const valTxt=tr.amount>=0?'+'+s+displayA.toFixed(2):'-'+s+Math.abs(displayA).toFixed(2);
+      const labelHtml=tr.label?`<span class="trade-label-text">${tr.label}</span>`:`<span class="trade-label-empty">Trade</span>`;
+      return `<div class="trade-row">
+        <div class="trade-info">${labelHtml}</div>
         <div class="trade-right">
-          <span class="trade-val ${tr.amount>0?'pos':tr.amount<0?'neg':'zero'}">${tr.amount>0?'+$'+tr.amount.toFixed(2):'-$'+Math.abs(tr.amount).toFixed(2)}</span>
+          <span class="trade-val ${cls}">${valTxt}</span>
           <button class="trade-del" onclick="delTrade('${k}','${tr.id}')">✕</button>
         </div>
-      </div>`).join('');
+      </div>`;
+    }).join('');
   }
 
   async function addTrade() {
     const v=parseFloat(document.getElementById('tradeInput').value);
-    if(isNaN(v)) return;
+    const label=document.getElementById('labelInput').value.trim();
+    if(isNaN(v)||v===0) return;
     const k=dk(curY,curM,selD);
-    const btn=document.querySelector('.btn-add');
-    btn.disabled=true;
+    const btn=document.getElementById('btnAdd');
+    btn.disabled=true; btn.textContent='A guardar...';
     try {
-      const id = await addToSupabase(k, v);
+      const id=await addToSupabase(k,v,label);
       if(!db[k]) db[k]=[];
-      db[k].push({id, amount:v});
+      db[k].push({id,amount:v,label});
       render(); refreshModal(k);
       document.getElementById('tradeInput').value='';
+      document.getElementById('labelInput').value='';
       document.getElementById('tradeInput').focus();
-    } catch(e) { alert('Erro ao guardar trade. Tenta novamente.'); }
-    btn.disabled=false;
+    } catch(e){ alert('Erro ao guardar trade.'); }
+    btn.disabled=false; btn.textContent='+ Adicionar trade';
   }
 
-  async function delTrade(k, id) {
+  async function delTrade(k,id) {
     try {
       await deleteFromSupabase(id);
-      db[k] = (db[k]||[]).filter(t=>t.id!==id);
+      db[k]=(db[k]||[]).filter(t=>t.id!==id);
       if(!db[k].length) delete db[k];
       render(); refreshModal(k);
-    } catch(e) { alert('Erro ao apagar trade.'); }
+    } catch(e){ alert('Erro ao apagar trade.'); }
   }
 
   function closeModal() { document.getElementById('overlay').style.display='none'; }
   function overlayClick(e) { if(e.target.id==='overlay') closeModal(); }
   function changeMonth(dir) {
     curM+=dir;
-    if(curM>11){curM=0;curY++;}
-    else if(curM<0){curM=11;curY--;}
+    if(curM>11){curM=0;curY++;} else if(curM<0){curM=11;curY--;}
     render();
   }
 
@@ -472,7 +527,6 @@
     if(e.key==='Enter'&&document.getElementById('overlay').style.display!=='none') addTrade();
   });
 
-  // ── AUTH ──────────────────────────────────────────────
   function tryLogin() {
     const val=document.getElementById('pwdInput').value;
     if(val===PASSWORD){
@@ -481,7 +535,7 @@
       startApp();
     } else {
       const err=document.getElementById('loginError');
-      err.textContent='Password incorreta. Tenta novamente.';
+      err.textContent='Password incorreta.';
       document.getElementById('pwdInput').value='';
       document.getElementById('pwdInput').focus();
       setTimeout(()=>err.textContent='',3000);
@@ -493,11 +547,10 @@
 
   async function startApp() {
     document.getElementById('loadingScreen').style.display='flex';
-    await loadFromSupabase();
+    await Promise.all([loadFromSupabase(), fetchRate()]);
     document.getElementById('loadingScreen').style.display='none';
     document.getElementById('app').style.display='block';
-    curY=today.getFullYear();
-    curM=today.getMonth();
+    curY=today.getFullYear(); curM=today.getMonth();
     render();
   }
 
