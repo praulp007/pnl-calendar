@@ -138,6 +138,61 @@
     .btn-add:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-close { width: 100%; background: var(--surface); border: 0.5px solid var(--border2); color: var(--muted2); border-radius: 8px; padding: 11px; font-size: 13px; font-family: 'Courier New', monospace; cursor: pointer; }
 
+    /* FILTRO / TIPO */
+    :root { --meme: #b388ff; --perp: #40c4ff; --notype: #555; }
+    .seg { display: flex; background: var(--surface); border: 0.5px solid var(--border2); border-radius: 10px; padding: 3px; gap: 3px; margin-bottom: 14px; }
+    .seg-btn { flex: 1; background: transparent; border: none; color: var(--muted2); font-family: 'Courier New', monospace; font-size: 12px; font-weight: 700; padding: 8px 4px; border-radius: 7px; cursor: pointer; letter-spacing: 0.5px; }
+    .seg-btn:hover { color: var(--text); }
+    .seg-btn.active { background: var(--surface2); color: var(--text); box-shadow: inset 0 0 0 0.5px var(--border2); }
+    .seg-btn.active[data-f="memecoin"] { color: var(--meme); }
+    .seg-btn.active[data-f="perp"] { color: var(--perp); }
+    .seg.small { margin-bottom: 10px; }
+    .seg.small .seg-btn { font-size: 11px; padding: 9px 4px; }
+    .type-tag { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; border-radius: 4px; padding: 2px 5px; border: 0.5px solid; cursor: pointer; background: none; font-family: 'Courier New', monospace; }
+    .type-tag.memecoin { color: var(--meme); border-color: #4a3a6a; }
+    .type-tag.perp { color: var(--perp); border-color: #1d4a5c; }
+    .type-tag.none { color: var(--muted2); border-color: var(--border2); border-style: dashed; }
+    .trade-info { flex-direction: row !important; align-items: center; gap: 8px !important; }
+    .cell-dots { display: flex; gap: 2px; margin-top: 1px; }
+    .cell-dots span { width: 4px; height: 4px; border-radius: 50%; }
+
+    /* PIE */
+    .pie-wrap { background: var(--surface); border: 0.5px solid var(--border2); border-radius: 10px; padding: 14px 12px 12px; margin-bottom: 16px; }
+    .pie-body { display: flex; align-items: center; gap: 16px; }
+    .pie-svg { width: 130px; height: 130px; flex-shrink: 0; }
+    .pie-legend { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+    .pl-row { display: flex; align-items: flex-start; gap: 8px; }
+    .pl-sw { width: 8px; height: 8px; border-radius: 2px; margin-top: 4px; flex-shrink: 0; }
+    .pl-main { flex: 1; min-width: 0; }
+    .pl-top { display: flex; justify-content: space-between; gap: 6px; font-size: 12px; font-weight: 700; }
+    .pl-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .pl-sub { font-size: 9px; color: var(--muted); margin-top: 2px; }
+    .pie-empty { font-size: 11px; color: var(--muted); padding: 18px 0; text-align: center; }
+    @media (max-width: 420px) { .pie-body { flex-direction: column; align-items: stretch; } .pie-svg { margin: 0 auto; } }
+
+    /* PC: calendário à esquerda, números e gráficos à direita */
+    .main-grid { display: flex; flex-direction: column; }
+    @media (min-width: 1100px) {
+      #app { max-width: 1280px; padding: 28px 32px 48px; }
+      .top-row { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(360px, 1fr); gap: 24px; align-items: center; margin-bottom: 14px; }
+      .top-row .month-nav { order: 1; margin-bottom: 0; }
+      .top-row .seg { order: 2; margin-bottom: 0; }
+      .month-label { font-size: 20px; }
+      .total-amount { font-size: 56px; }
+      .main-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(360px, 1fr); gap: 24px; align-items: start; }
+      .cal-col { order: 1; }
+      .side-col { order: 2; position: sticky; top: 20px; }
+      .cell { min-height: 96px; padding: 9px 8px 6px; border-radius: 9px; }
+      .cell-num { font-size: 11px; }
+      .cell-count { font-size: 10px; }
+      .cell-pnl { font-size: 15px; }
+      .cell-dots span { width: 6px; height: 6px; }
+      .day-hdr { font-size: 10px; padding: 6px 0; }
+      .calendar-grid, .days-header { gap: 5px; }
+      .chart-inner { height: 110px; }
+      .pie-svg { width: 150px; height: 150px; }
+    }
+
     @media (max-width: 380px) { .cell { min-height: 52px; } .cell-pnl { font-size: 10px; } .total-amount { font-size: 36px; } }
   </style>
 </head>
@@ -165,10 +220,18 @@
     <div class="sync-pill"><span class="sync-dot dot-amber" id="syncDot"></span><span id="syncLabel">sync</span></div>
   </div>
 
+  <div class="top-row">
+  <div class="seg" id="filterSeg">
+    <button class="seg-btn" data-f="all" onclick="setFilter('all')">Tudo</button>
+    <button class="seg-btn" data-f="memecoin" onclick="setFilter('memecoin')">Memecoins</button>
+    <button class="seg-btn" data-f="perp" onclick="setFilter('perp')">Perps</button>
+  </div>
+
   <div class="month-nav">
     <button class="nav-btn" onclick="changeMonth(-1)">&#8249;</button>
     <span class="month-label" id="monthLabel"></span>
     <button class="nav-btn" onclick="changeMonth(1)">&#8250;</button>
+  </div>
   </div>
 
   <div class="total-block">
@@ -183,6 +246,8 @@
   </div>
   <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
 
+  <div class="main-grid">
+  <div class="side-col">
   <div class="stats-row" id="statsRow"></div>
 
   <div class="chart-wrap">
@@ -195,9 +260,24 @@
     </div>
   </div>
 
+  <div class="pie-wrap">
+    <div class="chart-header">
+      <div class="chart-title" id="pieTitle">Onde ganhei mais</div>
+    </div>
+    <div class="seg small" id="pieSeg">
+      <button class="seg-btn" data-p="tipo" onclick="setPieMode('tipo')">Por tipo</button>
+      <button class="seg-btn" data-p="moeda" onclick="setPieMode('moeda')">Por moeda</button>
+    </div>
+    <div id="pieBody"></div>
+  </div>
+  </div><!-- /side-col -->
+
+  <div class="cal-col">
   <div class="days-header" id="daysHeader"></div>
   <div class="calendar-grid" id="calGrid"></div>
   <div class="streak-row" id="streakRow"></div>
+  </div><!-- /cal-col -->
+  </div><!-- /main-grid -->
 </div>
 
 <div class="overlay" id="overlay" style="display:none" onclick="overlayClick(event)">
@@ -210,8 +290,12 @@
       <span class="modal-total-lbl">Total do dia</span>
       <span class="modal-total-val" id="modalTotal">$0.00</span>
     </div>
+    <div class="seg small" id="typeSeg">
+      <button class="seg-btn" data-f="memecoin" onclick="setNewType('memecoin')">Memecoin</button>
+      <button class="seg-btn" data-f="perp" onclick="setNewType('perp')">Perp</button>
+    </div>
     <div class="input-grid">
-      <input class="trade-input" type="text" id="labelInput" placeholder="Nome (opcional)" />
+      <input class="trade-input" type="text" id="labelInput" placeholder="Moeda (ex: BONK)" />
       <input class="trade-input" type="number" id="tradeInput" placeholder="Valor (ex: 45.50)" step="0.01" inputmode="decimal" />
     </div>
     <button class="btn-add" id="btnAdd" onclick="addTrade()">+ Adicionar trade</button>
@@ -235,6 +319,34 @@
   let currency = localStorage.getItem('pnl_currency') || 'USD';
   let eurRate = parseFloat(localStorage.getItem(RATE_KEY)) || 0.92;
   const today = new Date();
+
+  // ── TIPO (memecoin / perp) ────────────────────────────
+  const TYPES = {
+    memecoin: { label: 'Memecoins', short: 'Memecoin', color: '#b388ff' },
+    perp:     { label: 'Perps',     short: 'Perp',     color: '#40c4ff' },
+    none:     { label: 'Sem tipo',  short: 'Sem tipo', color: '#555555' },
+  };
+  const COIN_COLORS = ['#00e676','#40c4ff','#b388ff','#ffd740','#ff6e9c','#555555'];
+  let filter   = lsGet('pnl_filter', 'all');        // all | memecoin | perp
+  let pieMode  = lsGet('pnl_pie', 'tipo');          // tipo | moeda
+  let newType  = lsGet('pnl_newtype', 'memecoin');  // tipo dos trades novos
+  let tipoDisponivel = true;                        // false se a coluna "tipo" ainda não existir
+
+  function lsGet(k, def) { try { return localStorage.getItem(k) || def; } catch(e) { return def; } }
+  function lsSet(k, v) { try { localStorage.setItem(k, v); } catch(e) {} }
+  function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function typeOf(t) { return t.tipo === 'memecoin' || t.tipo === 'perp' ? t.tipo : 'none'; }
+
+  function setFilter(f) {
+    filter = f; lsSet('pnl_filter', f);
+    if (f !== 'all') setNewType(f, true);
+    render();
+  }
+  function setPieMode(m) { pieMode = m; lsSet('pnl_pie', m); renderPie(); }
+  function setNewType(t, silent) {
+    newType = t; lsSet('pnl_newtype', t);
+    document.querySelectorAll('#typeSeg .seg-btn').forEach(b => b.classList.toggle('active', b.dataset.f === t));
+  }
 
   // ── TAXA CÂMBIO (cache 2 dias) ────────────────────────
   async function fetchRate() {
@@ -302,17 +414,34 @@
       db = {};
       for (const row of rows) {
         if (!db[row.day_key]) db[row.day_key] = [];
-        db[row.day_key].push({ id: row.id, amount: row.amount, label: row.label || '' });
+        db[row.day_key].push({ id: row.id, amount: Number(row.amount), label: row.label || '', tipo: row.tipo || null });
       }
+      tipoDisponivel = rows.length === 0 || Object.prototype.hasOwnProperty.call(rows[0], 'tipo');
       setSyncStatus('green', 'sincronizado');
     } catch(e) { setSyncStatus('red', 'erro sync'); }
   }
 
-  async function addToSupabase(dayKey, amount, label) {
+  async function addToSupabase(dayKey, amount, label, tipo) {
     setSyncStatus('amber', 'a guardar...');
-    const rows = await sbFetch('/rest/v1/trades', { method: 'POST', body: JSON.stringify({ day_key: dayKey, amount, label }) });
+    let rows;
+    try {
+      rows = await sbFetch('/rest/v1/trades', { method: 'POST', body: JSON.stringify({ day_key: dayKey, amount, label, tipo }) });
+    } catch (e) {
+      // Coluna "tipo" ainda não criada no Supabase → guarda sem tipo para não perder o trade
+      if (String(e.message).includes('tipo')) {
+        tipoDisponivel = false;
+        rows = await sbFetch('/rest/v1/trades', { method: 'POST', body: JSON.stringify({ day_key: dayKey, amount, label }) });
+        alert('Trade guardado, mas sem tipo: falta criar a coluna "tipo" no Supabase (ver instruções).');
+      } else throw e;
+    }
     setSyncStatus('green', 'guardado');
     return rows[0].id;
+  }
+
+  async function updateTipo(id, tipo) {
+    setSyncStatus('amber', 'a guardar...');
+    await sbFetch('/rest/v1/trades?id=eq.' + id, { method: 'PATCH', body: JSON.stringify({ tipo }) });
+    setSyncStatus('green', 'guardado');
   }
 
   async function deleteFromSupabase(id) {
@@ -327,7 +456,80 @@
   }
 
   function dk(y,m,d) { return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`; }
-  function dayTotal(k) { return (db[k]||[]).reduce((s,t)=>s+t.amount, 0); }
+  // Trades do dia que passam no filtro (Tudo / Memecoins / Perps)
+  function dayTrades(k) { return (db[k]||[]).filter(t => filter === 'all' || typeOf(t) === filter); }
+  function dayTotal(k) { return dayTrades(k).reduce((s,t)=>s+t.amount, 0); }
+  function rawDayTotal(k) { return (db[k]||[]).reduce((s,t)=>s+t.amount, 0); }
+  function fmtAbs(usd) { return sym() + Math.abs(conv(usd)).toFixed(2); }
+
+  // ── PIE (onde ganhei mais no mês) ─────────────────────
+  function renderPie() {
+    document.querySelectorAll('#pieSeg .seg-btn').forEach(b => b.classList.toggle('active', b.dataset.p === pieMode));
+    const daysInMonth = new Date(curY, curM + 1, 0).getDate();
+    const trades = [];
+    for (let d = 1; d <= daysInMonth; d++) trades.push(...dayTrades(dk(curY, curM, d)));
+
+    // agrupa: ganhos (só positivos), perdas e líquido
+    const groups = {};
+    trades.forEach(t => {
+      const key = pieMode === 'tipo' ? typeOf(t) : (t.label.trim().toUpperCase() || '(sem nome)');
+      const g = groups[key] || (groups[key] = { key, gain: 0, loss: 0, n: 0 });
+      if (t.amount > 0) g.gain += t.amount; else g.loss += t.amount;
+      g.n++;
+    });
+    let list = Object.values(groups).filter(g => g.gain > 0).sort((a, b) => b.gain - a.gain);
+
+    if (pieMode === 'moeda' && list.length > 5) {
+      const rest = list.slice(4);
+      list = list.slice(0, 4);
+      list.push(rest.reduce((o, g) => ({ key: `Outras (${rest.length})`, gain: o.gain + g.gain, loss: o.loss + g.loss, n: o.n + g.n }), { gain: 0, loss: 0, n: 0 }));
+    }
+    list.forEach((g, i) => {
+      if (pieMode === 'tipo') { g.color = TYPES[g.key].color; g.name = TYPES[g.key].label; }
+      else { g.color = COIN_COLORS[Math.min(i, COIN_COLORS.length - 1)]; g.name = g.key; }
+    });
+
+    const filtroTxt = filter === 'all' ? '' : ' · ' + TYPES[filter].label;
+    document.getElementById('pieTitle').textContent = `Onde ganhei mais — ${MONTHS[curM].slice(0,3)} ${curY}${filtroTxt}`;
+    const body = document.getElementById('pieBody');
+    const totalGain = list.reduce((s, g) => s + g.gain, 0);
+    if (totalGain <= 0) {
+      body.innerHTML = `<div class="pie-empty">Sem trades em green este mês.</div>`;
+      return;
+    }
+
+    // donut em SVG
+    const R = 50, r = 30, C = 60;
+    let a0 = -Math.PI / 2, paths = '';
+    list.forEach(g => {
+      const frac = g.gain / totalGain;
+      if (frac >= 0.9999) {
+        paths += `<circle cx="${C}" cy="${C}" r="${(R + r) / 2}" fill="none" stroke="${g.color}" stroke-width="${R - r}"/>`;
+        return;
+      }
+      const a1 = a0 + frac * 2 * Math.PI, large = frac > 0.5 ? 1 : 0;
+      const p = (rad, ang) => `${(C + rad * Math.cos(ang)).toFixed(2)} ${(C + rad * Math.sin(ang)).toFixed(2)}`;
+      paths += `<path d="M ${p(R, a0)} A ${R} ${R} 0 ${large} 1 ${p(R, a1)} L ${p(r, a1)} A ${r} ${r} 0 ${large} 0 ${p(r, a0)} Z" fill="${g.color}" stroke="#111" stroke-width="1"><title>${esc(g.name)}: ${(frac*100).toFixed(1)}%</title></path>`;
+      a0 = a1;
+    });
+    const svg = `<svg class="pie-svg" viewBox="0 0 120 120">${paths}
+      <text x="60" y="57" text-anchor="middle" fill="#888" font-size="7" font-family="Courier New">GANHOS</text>
+      <text x="60" y="69" text-anchor="middle" fill="#00e676" font-size="10" font-weight="700" font-family="Courier New">${fmtAbs(totalGain)}</text>
+    </svg>`;
+
+    const legend = list.map(g => {
+      const net = g.gain + g.loss;
+      const netCls = net > 0 ? 'pos' : net < 0 ? 'neg' : 'zero';
+      return `<div class="pl-row">
+        <div class="pl-sw" style="background:${g.color}"></div>
+        <div class="pl-main">
+          <div class="pl-top"><span class="pl-name">${esc(g.name)}</span><span>${(g.gain / totalGain * 100).toFixed(0)}%</span></div>
+          <div class="pl-sub">ganhos <span class="pos">+${fmtAbs(g.gain)}</span>${g.loss < 0 ? ` · perdas <span class="neg">-${fmtAbs(g.loss)}</span>` : ''} · líquido <span class="${netCls}">${fmtV(net)}</span></div>
+        </div>
+      </div>`;
+    }).join('');
+    body.innerHTML = `<div class="pie-body">${svg}<div class="pie-legend">${legend}</div></div>`;
+  }
 
   // ── CHART (todos os dias 1→fim do mês) ───────────────
   function renderChart(daysInMonth) {
@@ -338,7 +540,7 @@
     const vals = [];
     let maxAbs = 0;
     for(let d=1; d<=daysInMonth; d++){
-      const k=dk(curY,curM,d), trades=db[k]||[];
+      const k=dk(curY,curM,d), trades=dayTrades(k);
       const t = trades.length > 0 ? dayTotal(k) : null;
       vals.push(t);
       if(t !== null) maxAbs = Math.max(maxAbs, Math.abs(t));
@@ -384,10 +586,11 @@
 
     document.getElementById('monthLabel').textContent = MONTHS[curM]+' '+curY;
     document.getElementById('currencyBadge').textContent = currency;
+    document.querySelectorAll('#filterSeg .seg-btn').forEach(b => b.classList.toggle('active', b.dataset.f === filter));
 
     let total=0,wins=0,losses=0,bestStreak=0,curStreak=0,allTrades=0;
     for(let d=1; d<=daysInMonth; d++){
-      const k=dk(curY,curM,d), trades=db[k]||[];
+      const k=dk(curY,curM,d), trades=dayTrades(k);
       if(trades.length > 0){
         const t=dayTotal(k); total+=t; allTrades+=trades.length;
         if(t>0){wins++;curStreak++;bestStreak=Math.max(bestStreak,curStreak);}
@@ -416,6 +619,7 @@
     `;
 
     renderChart(daysInMonth);
+    renderPie();
 
     document.getElementById('daysHeader').innerHTML=DAYS_PT.map(d=>`<div class="day-hdr">${d}</div>`).join('');
 
@@ -423,7 +627,7 @@
     let html='';
     for(let i=0;i<offset;i++) html+=`<div class="cell empty"></div>`;
     for(let d=1;d<=daysInMonth;d++){
-      const k=dk(curY,curM,d), trades=db[k]||[], t=dayTotal(k);
+      const k=dk(curY,curM,d), trades=dayTrades(k), t=dayTotal(k);
       const isToday=curY===todY&&curM===todM&&d===todD;
       const hasData=trades.length>0;
       let cls='cell';
@@ -434,7 +638,10 @@
       const displayT=conv(t);
       const pnlTxt=hasData?(t>=0?'+'+s+displayT.toFixed(2):'-'+s+Math.abs(displayT).toFixed(2)):s+'0';
       const barBg=hasData?(t>0?'#00e676':'#ff4444'):'transparent';
-      const countHtml=trades.length>0?`<div class="cell-count">${trades.length}t</div>`:'';
+      // no modo "Tudo", pontinhos com a cor de cada tipo de trade do dia
+      const dayTypes=[...new Set(trades.map(typeOf))];
+      const dotsHtml=(filter==='all'&&trades.length>0)?`<div class="cell-dots">${dayTypes.map(tp=>`<span style="background:${TYPES[tp].color}"></span>`).join('')}</div>`:'';
+      const countHtml=trades.length>0?`<div class="cell-count">${trades.length}t</div>${dotsHtml}`:'';
       html+=`<div class="${cls}" onclick="openModal(${d})">
         <div class="cell-num">${d}${isToday?' ●':''}</div>
         ${countHtml}
@@ -456,12 +663,13 @@
     refreshModal(dk(curY,curM,d));
     document.getElementById('tradeInput').value='';
     document.getElementById('labelInput').value='';
+    setNewType(filter !== 'all' ? filter : newType);
     document.getElementById('overlay').style.display='flex';
     setTimeout(()=>document.getElementById('tradeInput').focus(),150);
   }
 
   function refreshModal(k) {
-    const trades=db[k]||[], t=dayTotal(k);
+    const trades=db[k]||[], t=rawDayTotal(k);
     const s=sym();
     const mv=document.getElementById('modalTotal');
     const displayT=conv(t);
@@ -475,9 +683,11 @@
       const displayA=conv(tr.amount);
       const cls=tr.amount>0?'pos':tr.amount<0?'neg':'zero';
       const valTxt=tr.amount>=0?'+'+s+displayA.toFixed(2):'-'+s+Math.abs(displayA).toFixed(2);
-      const labelHtml=tr.label?`<span class="trade-label-text">${tr.label}</span>`:`<span class="trade-label-empty">Trade</span>`;
+      const labelHtml=tr.label?`<span class="trade-label-text">${esc(tr.label)}</span>`:`<span class="trade-label-empty">Trade</span>`;
+      const tp=typeOf(tr);
+      const tagHtml=tipoDisponivel?`<button class="type-tag ${tp}" title="Tocar para mudar o tipo" onclick="cycleTipo('${k}','${tr.id}')">${TYPES[tp].short}</button>`:'';
       return `<div class="trade-row">
-        <div class="trade-info">${labelHtml}</div>
+        <div class="trade-info">${tagHtml}${labelHtml}</div>
         <div class="trade-right">
           <span class="trade-val ${cls}">${valTxt}</span>
           <button class="trade-del" onclick="delTrade('${k}','${tr.id}')">✕</button>
@@ -494,9 +704,9 @@
     const btn=document.getElementById('btnAdd');
     btn.disabled=true; btn.textContent='A guardar...';
     try {
-      const id=await addToSupabase(k,v,label);
+      const id=await addToSupabase(k,v,label,newType);
       if(!db[k]) db[k]=[];
-      db[k].push({id,amount:v,label});
+      db[k].push({id,amount:v,label,tipo:tipoDisponivel?newType:null});
       render(); refreshModal(k);
       document.getElementById('tradeInput').value='';
       document.getElementById('labelInput').value='';
@@ -508,10 +718,22 @@
   async function delTrade(k,id) {
     try {
       await deleteFromSupabase(id);
-      db[k]=(db[k]||[]).filter(t=>t.id!==id);
+      db[k]=(db[k]||[]).filter(t=>String(t.id)!==String(id));
       if(!db[k].length) delete db[k];
       render(); refreshModal(k);
     } catch(e){ alert('Erro ao apagar trade.'); }
+  }
+
+  // Tocar na etiqueta muda o tipo: Memecoin → Perp → Memecoin (trades antigos começam "Sem tipo")
+  async function cycleTipo(k,id) {
+    const tr=(db[k]||[]).find(t=>String(t.id)===String(id));
+    if(!tr) return;
+    const next=typeOf(tr)==='memecoin'?'perp':'memecoin';
+    try {
+      await updateTipo(tr.id,next);
+      tr.tipo=next;
+      render(); refreshModal(k);
+    } catch(e){ setSyncStatus('red','erro sync'); alert('Erro ao mudar o tipo do trade.'); }
   }
 
   function closeModal() { document.getElementById('overlay').style.display='none'; }
